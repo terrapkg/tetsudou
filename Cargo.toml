@@ -1,0 +1,24 @@
+[package]
+name = "tetsudou"
+version = "0.1.0"
+edition = "2021"
+
+# https://github.com/rustwasm/wasm-pack/issues/1247
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+chrono = "0.4.31"
+itertools = "0.11.0"
+lazy_static = "1.4.0"
+quick-xml = { version = "0.31.0", features = ["serialize"] }
+serde = "1.0.190"
+worker = "0.0.15"
+
+[profile.release]
+lto = true
+strip = true
+codegen-units = 1
