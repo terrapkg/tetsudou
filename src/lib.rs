@@ -6,6 +6,7 @@ use worker::*;
 macro_rules! bail {
     ($left:pat = $right:expr => $code:literal $err:expr) => {
         let $left = $right else {
+            console_debug!("Bail({}): {}", $code, $err);
             return Response::error($err, $code);
         };
     };
@@ -17,7 +18,12 @@ lazy_static::lazy_static! {
 
 async fn init_repo(ctx: &RouteContext<()>, repo: &str) -> Option<Vec<Mirror>> {
     let repos = ctx.kv("TETSUDOU_REPOS").ok()?;
-    let mirrors: Vec<Mirror> = repos.get(&repo).json().await.ok()??;
+    let Ok(Some(mirrors)) = (repos.get(repo).json::<Vec<Mirror>>().await)
+        .map_err(|e| console_error!(" :: E: No TETSUDOU_REPOS `{repo}`: {e:?}"))
+    else {
+        console_error!(" :: E: No TETSUDOU_REPOS `{repo}`");
+        return None;
+    };
     REPOS.write().unwrap().insert(repo.into(), mirrors.clone());
     Some(mirrors)
 }
@@ -45,7 +51,7 @@ macro_rules! get_mirrors {
             _bindmirrors = init_repo(&$ctx, &$repo).await;
             mirrors = _bindmirrors.as_ref();
         }
-        bail!(Some($mirrors) = mirrors => 400 "Unknown `repos=` specified");
+        bail!(Some($mirrors) = mirrors => 400 "Unknown `repo=` specified");
     }
 }
 
@@ -57,14 +63,15 @@ async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
     );
     let resources = mirrors::Resources {
         maxconnections: 1,
-        urls: (mirrors.into_iter().filter(filter))
+        urls: (mirrors.iter().filter(filter))
             .flat_map(|m| {
-                (m.protocols.iter()).map(|rtype| mirrors::Url {
+                let url = std::path::Path::new(&m.url).join("repodata/repomd.xml");
+                (m.protocols.iter()).map(move |rtype| mirrors::Url {
                     protocol: rtype,
                     rtype,
                     location: &m.country,
                     preference: 100,
-                    link: format!("{rtype}://{}", m.url),
+                    link: format!("{rtype}://{}", url.display()),
                 })
             })
             .collect(),
@@ -73,7 +80,7 @@ async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
     let hashes = hashes.collect();
     let files = mirrors::Files {
         files: [mirrors::File {
-            name: "repomd.xml".to_string(),
+            name: "repomd.xml",
             timestamp,
             size,
             verification: mirrors::Verification { hashes },
@@ -81,12 +88,12 @@ async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
         }],
     };
     let metalink = mirrors::Metalink {
-        version: "3.0".into(),
-        xmlns: "http://www.metalinker.org/".into(),
-        rtype: "dynamic".into(),
+        version: "3.0",
+        xmlns: "http://www.metalinker.org/",
+        rtype: "dynamic",
         pubdate: (chrono::offset::Local::now().format("%a, %b %d %Y %T %Z")).to_string(),
-        generator: "tetsudou".into(),
-        attrmm0: "https://github.com/terrapkg/tetsudou".into(),
+        generator: "tetsudou",
+        attrmm0: "https://github.com/terrapkg/tetsudou",
         files,
     };
     Response::ok(quick_xml::se::to_string(&metalink).map_err(|e| e.to_string())?)
@@ -95,7 +102,7 @@ async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
 async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
     get_mirrors!(req, ctx, mirrors, filter, repo);
     let mapper = |m: &Mirror| (m.protocols.iter().map(|p| format!("{p}://{}", m.url))).join("\n");
-    let mut list = mirrors.into_iter().filter(filter).map(mapper);
+    let mut list = mirrors.iter().filter(filter).map(mapper);
     Response::ok(list.join("\n"))
 }
 

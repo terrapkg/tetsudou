@@ -1,6 +1,12 @@
 name = "tetsudou"
 main = "build/worker/shim.mjs"
 compatibility_date = "2023-03-22"
+send_metrics = false
+
+kv_namespaces = [
+  { binding = "TETSUDOU_REPOS", preview_id = "d570a76730124c47a572b319536f9743", id = "idk" },
+  { binding = "TETSUDOU_REPOMD_INFO", preview_id = "6ecef5e0182f42b88d18e6a9f37b185e", id = "idk" },
+]
 
 [build]
 command = "cargo install -q worker-build && worker-build --release"

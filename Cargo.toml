@@ -2,6 +2,9 @@
 name = "tetsudou"
 version = "0.1.0"
 edition = "2021"
+description = "Not your favourite mirrorlist and metalink generator"
+license = "GPL-3.0+"
+repository = "https://github.com/terrapkg/tetsudou"
 
 # https://github.com/rustwasm/wasm-pack/issues/1247
 [package.metadata.wasm-pack.profile.release]
