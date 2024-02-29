@@ -1,31 +1,18 @@
 mod mirrors;
 use itertools::Itertools;
-use mirrors::{Mirror, Repos};
+use mirrors::Mirror;
 use worker::*;
 
-macro_rules! bail {
-    ($left:pat = $right:expr => $code:literal $err:expr) => {
-        let $left = $right else {
-            console_debug!("Bail({}): {}", $code, $err);
-            return Response::error($err, $code);
-        };
-    };
-}
+type Res = std::result::Result<String, (u16, String)>;
 
-lazy_static::lazy_static! {
-    static ref REPOS: std::sync::RwLock<Repos> = std::sync::RwLock::new(Repos::new());
-}
-
-async fn init_repo(ctx: &RouteContext<()>, repo: &str) -> Option<Vec<Mirror>> {
+async fn get_repos(ctx: &RouteContext<()>, repo: &str) -> Option<Vec<Mirror>> {
     let repos = ctx.kv("TETSUDOU_REPOS").ok()?;
-    let Ok(Some(mirrors)) = (repos.get(repo).json::<Vec<Mirror>>().await)
-        .map_err(|e| console_error!(" :: E: No TETSUDOU_REPOS `{repo}`: {e:?}"))
-    else {
-        console_error!(" :: E: No TETSUDOU_REPOS `{repo}`");
-        return None;
-    };
-    REPOS.write().unwrap().insert(repo.into(), mirrors.clone());
-    Some(mirrors)
+    match repos.get(repo).json::<Vec<Mirror>>().await {
+        Err(e) => console_error!(" :: E: No TETSUDOU_REPOS `{repo}`: {e:?}"),
+        Ok(None) => console_error!(" :: E: No TETSUDOU_REPOS `{repo}`"),
+        Ok(mirrors) => return mirrors,
+    }
+    None
 }
 
 fn get_queries(url: &Url) -> Option<((String, String), Option<String>)> {
@@ -42,27 +29,33 @@ fn get_queries(url: &Url) -> Option<((String, String), Option<String>)> {
 
 macro_rules! get_mirrors {
     ($req:ident, $ctx:ident, $mirrors:ident, $filter:ident, $repo:ident) => {
-        bail!(Some((($repo, arch), cntry)) = get_queries(&$req.url()?) => 400 "`repo=` or `arch=` not specified.");
-        let $filter = |m: &&Mirror| m.arch == arch && cntry.as_ref().map_or(true, |ct| &m.country == ct);
-        let guard = REPOS.read().unwrap();
-        let (mut mirrors, mut _bindmirrors) = (guard.get(&$repo), None);
-        if mirrors.is_none() {
-            drop(guard); // init_repo() needs .write()
-            _bindmirrors = init_repo(&$ctx, &$repo).await;
-            mirrors = _bindmirrors.as_ref();
-        }
-        bail!(Some($mirrors) = mirrors => 400 "Unknown `repo=` specified");
-    }
+        let (($repo, arch), cntry) = get_queries(&$req.url().unwrap())
+            .ok_or_else(|| (400, "`repo=` or `arch=` not specified.".into()))?;
+        let $filter =
+            |m: &&Mirror| m.arch == arch && cntry.as_ref().map_or(true, |ct| &m.country == ct);
+        let $mirrors = (get_repos(&$ctx, &$repo).await)
+            .ok_or_else(|| (400, "Unknown `repo=` specified".into()))?;
+    };
 }
 
-async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+#[cached::proc_macro::once(time = 300)] // refresh every 5 min
+async fn _mirrorlist(req: Request, ctx: RouteContext<()>) -> Res {
     get_mirrors!(req, ctx, mirrors, filter, repo);
-    let infos = ctx.kv("TETSUDOU_REPOMD_INFO")?;
-    bail!(Some(mirrors::RepomdInfo { timestamp, size, hashes }) = infos.get(&repo).json().await?
-        => 500 "Can't get repo information"
-    );
+    let req = reqwest::get(format!(
+        "https://repos.fyralabs.com/{repo}/repodata/tetsudou.json"
+    ))
+    .await
+    .map_err(|e| console_error!("Can't get tetsudou.json: {e:?}"))
+    .map_err(|()| (500, "Bad cfg on main repo".into()))?;
+    let mirrors::RepomdInfo {
+        timestamp,
+        size,
+        hashes,
+    } = (req.json().await)
+        .map_err(|e| console_error!("Can't parse tetsudou.json: {e:?}"))
+        .map_err(|()| (500, "Bad cfg on main repo".into()))?;
     let resources = mirrors::Resources {
-        maxconnections: 1,
+        maxconnections: 1, // NOTE: idk why either but copied from Fedora
         urls: (mirrors.iter().filter(filter))
             .flat_map(|m| {
                 let url = std::path::Path::new(&m.url).join("repodata/repomd.xml");
@@ -70,7 +63,7 @@ async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
                     protocol: rtype,
                     rtype,
                     location: &m.country,
-                    preference: 100,
+                    preference: 100, // NOTE: probably can have manual tweaking...?
                     link: format!("{rtype}://{}", url.display()),
                 })
             })
@@ -78,32 +71,34 @@ async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
     };
     let hashes = (hashes.into_iter()).map(|(kind, hash)| mirrors::Hash { kind, hash });
     let hashes = hashes.collect();
-    let files = mirrors::Files {
-        files: [mirrors::File {
-            name: "repomd.xml",
-            timestamp,
-            size,
-            verification: mirrors::Verification { hashes },
-            resources,
-        }],
+    let file = mirrors::File {
+        name: "repomd.xml",
+        timestamp,
+        size,
+        verification: mirrors::Verification { hashes },
+        resources,
     };
-    let metalink = mirrors::Metalink {
-        version: "3.0",
-        xmlns: "http://www.metalinker.org/",
-        rtype: "dynamic",
-        pubdate: (chrono::offset::Local::now().format("%a, %b %d %Y %T %Z")).to_string(),
-        generator: "tetsudou",
-        attrmm0: "https://github.com/terrapkg/tetsudou",
-        files,
-    };
-    Response::ok(quick_xml::se::to_string(&metalink).map_err(|e| e.to_string())?)
+    Ok(format!(
+        r#"<?xml version="1.0" encoding="utf-8"?><metalink version="3.0" xmlns="http://www.metalinker.org/" type="dynamic" pubdate="{}" generator="mirrormanager" xmlns:mm0="https://github.com/terrapkg/tetsudou"><files>{}</files></metalink>"#,
+        (chrono::offset::Local::now().format("%a, %b %d %Y %T %Z")).to_string(),
+        quick_xml::se::to_string(&file).map_err(|e| (500, e.to_string()))?
+    ))
 }
 
-async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+    (_mirrorlist(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), |s| Response::ok(s))
+}
+
+#[cached::proc_macro::once(time = 300)] // refresh every 5 min
+async fn _metalink(req: Request, ctx: RouteContext<()>) -> Res {
     get_mirrors!(req, ctx, mirrors, filter, repo);
     let mapper = |m: &Mirror| (m.protocols.iter().map(|p| format!("{p}://{}", m.url))).join("\n");
     let mut list = mirrors.iter().filter(filter).map(mapper);
-    Response::ok(list.join("\n"))
+    Ok(list.join("\n"))
+}
+
+async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+    (_metalink(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), |s| Response::ok(s))
 }
 
 #[event(fetch)]
