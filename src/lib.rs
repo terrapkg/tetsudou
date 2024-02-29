@@ -80,13 +80,13 @@ async fn _mirrorlist(req: Request, ctx: RouteContext<()>) -> Res {
     };
     Ok(format!(
         r#"<?xml version="1.0" encoding="utf-8"?><metalink version="3.0" xmlns="http://www.metalinker.org/" type="dynamic" pubdate="{}" generator="mirrormanager" xmlns:mm0="https://github.com/terrapkg/tetsudou"><files>{}</files></metalink>"#,
-        (chrono::offset::Local::now().format("%a, %b %d %Y %T %Z")).to_string(),
+        chrono::offset::Local::now().format("%a, %b %d %Y %T %Z"),
         quick_xml::se::to_string(&file).map_err(|e| (500, e.to_string()))?
     ))
 }
 
 async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
-    (_mirrorlist(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), |s| Response::ok(s))
+    (_mirrorlist(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
 }
 
 #[cached::proc_macro::once(time = 300)] // refresh every 5 min
@@ -98,7 +98,7 @@ async fn _metalink(req: Request, ctx: RouteContext<()>) -> Res {
 }
 
 async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
-    (_metalink(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), |s| Response::ok(s))
+    (_metalink(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
 }
 
 #[event(fetch)]
