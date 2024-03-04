@@ -38,8 +38,7 @@ macro_rules! get_mirrors {
     };
 }
 
-#[cached::proc_macro::once(time = 300)] // refresh every 5 min
-async fn _mirrorlist(req: Request, ctx: RouteContext<()>) -> Res {
+async fn _metalink(req: Request, ctx: RouteContext<()>) -> Res {
     get_mirrors!(req, ctx, mirrors, filter, repo);
     let req = reqwest::get(format!(
         "https://repos.fyralabs.com/{repo}/repodata/tetsudou.json"
@@ -85,27 +84,27 @@ async fn _mirrorlist(req: Request, ctx: RouteContext<()>) -> Res {
     ))
 }
 
-async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
-    (_mirrorlist(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
+async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+    (_metalink(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
 }
 
-#[cached::proc_macro::once(time = 300)] // refresh every 5 min
-async fn _metalink(req: Request, ctx: RouteContext<()>) -> Res {
+// #[cached::proc_macro::once(time = 300)] // refresh every 5 min
+async fn _mirrorlist(req: Request, ctx: RouteContext<()>) -> Res {
     get_mirrors!(req, ctx, mirrors, filter, repo);
     let mapper = |m: &Mirror| (m.protocols.iter().map(|p| format!("{p}://{}", m.url))).join("\n");
     let mut list = mirrors.iter().filter(filter).map(mapper);
     Ok(list.join("\n"))
 }
 
-async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
-    (_metalink(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
+async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+    (_mirrorlist(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
 }
 
 #[event(fetch)]
-async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
+pub async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
     Router::new()
-        .get_async("/metalink", metalink)
         .get_async("/mirrorlist", mirrorlist)
+        .get_async("/metalink", metalink)
         .run(req, env)
         .await
 }

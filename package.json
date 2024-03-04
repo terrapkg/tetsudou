@@ -1,11 +1,11 @@
 {
-	"name": "tetsudou",
-	"version": "0.1.0",
-	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev -r"
-	},
-	"devDependencies": {
-		"wrangler": "^3.22.1"
-	}
+  "name": "tetsudou",
+  "version": "0.1.0",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^3.30.1"
+  }
 }
