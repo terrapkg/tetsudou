@@ -124,7 +124,7 @@ async fn _mirrorlist(_: &str, mirrors: Vec<Mirror>, filter: impl Fn(&&Mirror) ->
 generate_fn!(mirrorlist(mirrors, filter) => _mirrorlist(mirrors, filter) 1);
 
 #[event(fetch)]
-async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
+pub async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
     unsafe { CACHE = Some(std::collections::HashMap::new()) };
     Router::new()
         .get_async("/mirrorlist", mirrorlist)
