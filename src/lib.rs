@@ -4,7 +4,38 @@ use mirrors::Mirror;
 use worker::*;
 
 type Res = std::result::Result<String, (u16, String)>;
-
+static mut CACHE: Option<std::collections::HashMap<String, (String, u64)>> = None;
+macro_rules! generate_fn {
+    ($name:ident($($param:ident),+) => $behind:ident($($args:expr),+) $num:literal) => {
+        async fn $name(req: Request, ctx: RouteContext<()>) -> Result<Response> {
+            get_mirrors!(req, ctx, repo, $($param),+);
+            unsafe {
+                let q = req.url().unwrap_unchecked();
+                let q = q.query().unwrap_unchecked();
+                let id = format!("{}{repo} {q}", stringify!($num));
+                let Some((res, _)) = (CACHE.as_ref().unwrap_unchecked())
+                    .get(&id)
+                    .filter(|(_, t)| time() - t < 300)
+                else {
+                    return match $behind(&repo, $($args),+).await {
+                        Ok(x) => {
+                            (CACHE.as_mut().unwrap_unchecked()).insert(id, (x.clone(), time()));
+                            Response::ok(x)
+                        }
+                        Err((i, s)) => Response::error(s, i),
+                    };
+                };
+                Response::ok(res)
+            }
+        }
+    }
+}
+fn time() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs()
+}
 async fn get_repos(ctx: &RouteContext<()>, repo: &str) -> Option<Vec<Mirror>> {
     let repos = ctx.kv("TETSUDOU_REPOS").ok()?;
     match repos.get(repo).json::<Vec<Mirror>>().await {
@@ -14,7 +45,6 @@ async fn get_repos(ctx: &RouteContext<()>, repo: &str) -> Option<Vec<Mirror>> {
     }
     None
 }
-
 fn get_queries(url: &Url) -> Option<((String, String), Option<String>)> {
     let (repo, arch, cntry) = (url.query_pairs()) // FIXME: `path=`?
         .map(|(k, v)| (k.to_string(), Some(v.to_string())))
@@ -28,18 +58,19 @@ fn get_queries(url: &Url) -> Option<((String, String), Option<String>)> {
 }
 
 macro_rules! get_mirrors {
-    ($req:ident, $ctx:ident, $mirrors:ident, $filter:ident, $repo:ident) => {
-        let (($repo, arch), cntry) = get_queries(&$req.url().unwrap())
-            .ok_or_else(|| (400, "`repo=` or `arch=` not specified.".into()))?;
+    ($req:ident, $ctx:ident, $repo:ident, $mirrors:ident, $filter:ident) => {
+        let Some((($repo, arch), cntry)) = get_queries(&$req.url().unwrap()) else {
+            return Response::error("`repo=` or `arch=` not specified.", 400);
+        };
         let $filter =
             |m: &&Mirror| m.arch == arch && cntry.as_ref().map_or(true, |ct| &m.country == ct);
-        let $mirrors = (get_repos(&$ctx, &$repo).await)
-            .ok_or_else(|| (400, "Unknown `repo=` specified".into()))?;
+        let Some($mirrors) = (get_repos(&$ctx, &$repo).await) else {
+            return Response::error("Unknown `repo=` specified", 400);
+        };
     };
 }
 
-async fn _metalink(req: Request, ctx: RouteContext<()>) -> Res {
-    get_mirrors!(req, ctx, mirrors, filter, repo);
+async fn _metalink(repo: &str, mirrors: Vec<Mirror>, filter: impl Fn(&&Mirror) -> bool) -> Res {
     let req = reqwest::get(format!(
         "https://repos.fyralabs.com/{repo}/repodata/tetsudou.json"
     ))
@@ -83,25 +114,18 @@ async fn _metalink(req: Request, ctx: RouteContext<()>) -> Res {
         quick_xml::se::to_string(&file).map_err(|e| (500, e.to_string()))?
     ))
 }
+generate_fn!(metalink(mirrors, filter) => _metalink(mirrors, filter) 0);
 
-async fn metalink(req: Request, ctx: RouteContext<()>) -> Result<Response> {
-    (_metalink(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
-}
-
-// #[cached::proc_macro::once(time = 300)] // refresh every 5 min
-async fn _mirrorlist(req: Request, ctx: RouteContext<()>) -> Res {
-    get_mirrors!(req, ctx, mirrors, filter, repo);
+async fn _mirrorlist(_: &str, mirrors: Vec<Mirror>, filter: impl Fn(&&Mirror) -> bool) -> Res {
     let mapper = |m: &Mirror| (m.protocols.iter().map(|p| format!("{p}://{}", m.url))).join("\n");
     let mut list = mirrors.iter().filter(filter).map(mapper);
     Ok(list.join("\n"))
 }
-
-async fn mirrorlist(req: Request, ctx: RouteContext<()>) -> Result<Response> {
-    (_mirrorlist(req, ctx).await).map_or_else(|(i, s)| Response::error(s, i), Response::ok)
-}
+generate_fn!(mirrorlist(mirrors, filter) => _mirrorlist(mirrors, filter) 1);
 
 #[event(fetch)]
-pub async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
+async fn main(req: Request, env: Env, _ctx: Context) -> Result<Response> {
+    unsafe { CACHE = Some(std::collections::HashMap::new()) };
     Router::new()
         .get_async("/mirrorlist", mirrorlist)
         .get_async("/metalink", metalink)
