@@ -1,6 +1,6 @@
 export type Mirror = {
   url: string;
-  arch: string;
+  arch?: string; // some repos are noarch or anyarch (packages from all arches in one repo)
   country: string;
   protocols: string[];
 };

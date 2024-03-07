@@ -15,7 +15,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 const metalinkParams = z.object({
   repo: z.string(),
-  arch: z.string(),
+  arch: z.string().optional(),
   country: z.string().optional(),
 });
 
