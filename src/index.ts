@@ -31,7 +31,7 @@ app.get(
   }),
   zValidator("query", metalinkParams),
   async (c) => {
-    const { repo } = c.req.valid("query");
+    const { repo, arch } = c.req.valid("query");
 
     const mirrors = await c.env.TETSUDOU.get("mirrors/" + repo);
 
@@ -42,6 +42,11 @@ app.get(
     }
 
     const mirrorList = JSON.parse(mirrors) as Mirror[];
+    const selectedMirrors = mirrorList.filter(
+      // 1. If the mirror's arch is undefined, we assume it's an anyarch repo, and match it
+      // 2. If the mirror's arch is the same as the requested arch, match it
+      (mirror) => mirror.arch === undefined || mirror.arch === arch
+    );
 
     const tetsudouMetadata = (await (
       await fetch(`https://repos.fyralabs.com/${repo}/repodata/tetsudou.json`)
@@ -51,7 +56,7 @@ app.get(
       _attributes: {
         maxconnections: 1,
       },
-      url: mirrorList.flatMap((mirror) =>
+      url: selectedMirrors.flatMap((mirror) =>
         mirror.protocols.map((protocol) => ({
           _attributes: {
             type: protocol,
