@@ -7,7 +7,7 @@ node_compat = true
 
 [[kv_namespaces]]
 binding = "TETSUDOU"
-id = "tetsudou"
+id = "7e26e8aeb0734e4fac90858a80929ac6"
 
 # [[r2_buckets]]
 # binding = "MY_BUCKET"
