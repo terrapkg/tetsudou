@@ -6,6 +6,7 @@ import { Document, Hash, MFile, Resources } from "./types/metalink";
 import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
 import { cache } from "hono/cache";
+import { selectMirrors } from "./utils/selection";
 
 type Bindings = {
   TETSUDOU: KVNamespace;
@@ -42,11 +43,12 @@ app.get(
     }
 
     const mirrorList = JSON.parse(mirrors) as Mirror[];
-    const selectedMirrors = mirrorList.filter(
+    const archCompatibleMirrors = mirrorList.filter(
       // 1. If the mirror's arch is undefined, we assume it's an anyarch repo, and match it
       // 2. If the mirror's arch is the same as the requested arch, match it
       (mirror) => mirror.arch === undefined || mirror.arch === arch
     );
+    const selectedMirrors = selectMirrors(c.req.raw, archCompatibleMirrors);
 
     const tetsudouMetadata = (await (
       await fetch(`https://repos.fyralabs.com/${repo}/repodata/tetsudou.json`)
@@ -62,7 +64,7 @@ app.get(
             type: protocol,
             protocol: protocol,
             location: mirror.country,
-            preference: 100,
+            preference: mirror.preference,
           },
           _text: `${protocol}://${mirror.url}/repodata/repomd.xml`,
         }))
