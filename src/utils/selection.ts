@@ -24,7 +24,7 @@ export const selectMirrors = (
   let selected: MirrorWithPreference[] = [];
 
   {
-    const sameASN = candidates.filter((m) => m.asn === cf.asn);
+    const sameASN = pool.filter((m) => m.asn === cf.asn);
     if (sameASN.length > 0) {
       pool = pool.filter((m) => !sameASN.includes(m));
       selected = selected.concat(
@@ -36,7 +36,7 @@ export const selectMirrors = (
   if (selected.length >= num) return selected.slice(0, num);
 
   {
-    const sameCountry = candidates.filter((m) => m.country === cf.country);
+    const sameCountry = pool.filter((m) => m.country === cf.country);
     if (sameCountry.length > 0) {
       sameCountry.sort(
         (a, b) =>
@@ -56,9 +56,7 @@ export const selectMirrors = (
   if (selected.length >= num) return selected.slice(0, num);
 
   {
-    const sameContinent = candidates.filter(
-      (m) => m.continent === cf.continent
-    );
+    const sameContinent = pool.filter((m) => m.continent === cf.continent);
     if (sameContinent.length > 0) {
       sameContinent.sort(
         (a, b) =>
