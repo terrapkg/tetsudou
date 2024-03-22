@@ -14,6 +14,7 @@ import { haversineDistance } from "./math";
 export const selectMirrors = (
   req: Request,
   candidates: Mirror[],
+  // Should be 100 or below, 10 is a good default.
   num = 10
 ): MirrorWithPreference[] => {
   const cf = req.cf!;
