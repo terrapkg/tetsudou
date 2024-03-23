@@ -15,3 +15,5 @@ jobs:
           version: latest
       - run: pnpm install
       - run: ./upload-repos-kv.sh
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
