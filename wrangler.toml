@@ -1,6 +1,7 @@
 name = "tetsudou"
 compatibility_date = "2023-12-01"
 node_compat = true
+account_id = "b5233d7eddf19b9902e2afab0a73ac11"
 
 # [vars]
 # MY_VARIABLE = "production_value"
