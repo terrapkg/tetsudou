@@ -15,7 +15,7 @@ export const selectMirrors = (
   req: Request,
   candidates: Mirror[],
   // Should be 100 or below, 10 is a good default.
-  num = 10
+  num = 10,
 ): MirrorWithPreference[] => {
   const cf = req.cf!;
   const lat = parseFloat(cf.latitude as string);
@@ -29,7 +29,7 @@ export const selectMirrors = (
     if (sameASN.length > 0) {
       pool = pool.filter((m) => !sameASN.includes(m));
       selected = selected.concat(
-        sameASN.map((m) => ({ ...m, preference: 100 }))
+        sameASN.map((m) => ({ ...m, preference: 100 })),
       );
     }
   }
@@ -42,14 +42,14 @@ export const selectMirrors = (
       sameCountry.sort(
         (a, b) =>
           haversineDistance(lat, a.lat, lon, a.lon) -
-          haversineDistance(lat, b.lat, lon, b.lon)
+          haversineDistance(lat, b.lat, lon, b.lon),
       );
       pool = pool.filter((m) => !sameCountry.includes(m));
       selected = selected.concat(
         sameCountry.map((c, i) => ({
           ...c,
           preference: 100 - selected.length - i,
-        }))
+        })),
       );
     }
   }
@@ -62,14 +62,14 @@ export const selectMirrors = (
       sameContinent.sort(
         (a, b) =>
           haversineDistance(lat, a.lat, lon, a.lon) -
-          haversineDistance(lat, b.lat, lon, b.lon)
+          haversineDistance(lat, b.lat, lon, b.lon),
       );
       pool = pool.filter((m) => !sameContinent.includes(m));
       selected = selected.concat(
         sameContinent.map((m, i) => ({
           ...m,
           preference: 100 - selected.length - i,
-        }))
+        })),
       );
     }
   }
@@ -82,10 +82,13 @@ export const selectMirrors = (
     worldwide.sort(
       (a, b) =>
         haversineDistance(lat, a.lat, lon, a.lon) -
-        haversineDistance(lat, b.lat, lon, b.lon)
+        haversineDistance(lat, b.lat, lon, b.lon),
     );
     selected = selected.concat(
-      worldwide.map((m, i) => ({ ...m, preference: 100 - selected.length - i }))
+      worldwide.map((m, i) => ({
+        ...m,
+        preference: 100 - selected.length - i,
+      })),
     );
   }
 
