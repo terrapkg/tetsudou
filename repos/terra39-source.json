@@ -1,6 +1,6 @@
 [
   {
-    "url": "repos.fyralabs.com/um40",
+    "url": "repos.fyralabs.com/terra39-source",
     "asn": 24940,
     "continent": "EU",
     "country": "DE",
@@ -9,7 +9,7 @@
     "protocols": ["https"]
   },
   {
-    "url": "fyra.sakamoto.pl/um40",
+    "url": "fyra.sakamoto.pl/terra39-source",
     "asn": 204880,
     "continent": "EU",
     "country": "PL",
