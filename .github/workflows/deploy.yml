@@ -15,6 +15,6 @@ jobs:
         with:
           version: latest
       - name: Deploy
-        run: pnpm deploy
+        run: pnpm run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
