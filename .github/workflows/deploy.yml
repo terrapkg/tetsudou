@@ -15,7 +15,6 @@ jobs:
         with:
           version: latest
       - name: Deploy
-        uses: cloudflare/wrangler-action@v3
-        with:
-          packageManager: pnpm
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: pnpm deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
