@@ -1,0 +1,20 @@
+[
+  {
+    "url": "repos.fyralabs.com/terrarawhide-source",
+    "asn": 24940,
+    "continent": "EU",
+    "country": "DE",
+    "lat": 50.5597,
+    "lon": 6.7705,
+    "protocols": ["https"]
+  },
+  {
+    "url": "fyra.sakamoto.pl/terrarawhide-source",
+    "asn": 204880,
+    "continent": "EU",
+    "country": "PL",
+    "lat": 52.2412,
+    "lon": 20.9831,
+    "protocols": ["https"]
+  }
+]
