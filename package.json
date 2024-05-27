@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.1",
-    "hono": "^4.3.5",
+    "hono": "^4.4.0",
     "xml-js": "^1.6.11",
     "zod": "^3.23.8"
   },
