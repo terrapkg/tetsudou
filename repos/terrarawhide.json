@@ -16,14 +16,5 @@
     "lat": 52.2412,
     "lon": 20.9831,
     "protocols": ["https"]
-  },
-  {
-    "url": "mirror.funami.tech/fyralabs/terrarawhide",
-    "asn": 31898,
-    "continent": "AS",
-    "country": "KR",
-    "lat": 37.5308,
-    "lon": 126.8751,
-    "protocols": ["https"]
   }
 ]
