@@ -16,5 +16,14 @@
     "lat": 52.2412,
     "lon": 20.9831,
     "protocols": ["https"]
+  },
+  {
+    "url": "mirror.us.helium.ws/fyralabs/terrarawhide-source",
+    "asn": 31898,
+    "continent": "NA",
+    "country": "US",
+    "lat": 39.0395,
+    "lon": -77.4918,
+    "protocols": ["https"]
   }
 ]
