@@ -25,5 +25,14 @@
     "lat": 37.5308,
     "lon": 126.8751,
     "protocols": ["https"]
+  },
+  {
+    "url": "mirror.us.helium.ws/fyralabs/terra39",
+    "asn": 31898,
+    "continent": "NA",
+    "country": "US",
+    "lat": 39.0395,
+    "lon": -77.4918,
+    "protocols": ["https"]
   }
 ]
