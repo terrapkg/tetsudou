@@ -7,6 +7,7 @@ import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
 import { cache } from "hono/cache";
 import { selectMirrors } from "./utils/selection";
+import { postEvent } from "./utils/plausible";
 
 type Bindings = {
   TETSUDOU: KVNamespace;
@@ -26,6 +27,11 @@ app.get("/", (c) => {
 
 app.get(
   "/metalink",
+  // We hit plausible before cache is checked, we want to always log events
+  async (c, next) => {
+    c.executionCtx.waitUntil(postEvent(c.req));
+    await next();
+  },
   cache({
     cacheName: "tetsudou",
     cacheControl: "max-age=300",
