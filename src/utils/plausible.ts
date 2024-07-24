@@ -29,7 +29,6 @@ export const postEvent = async (req: HonoRequest) => {
     headers: {
       "Content-Type": "application/json",
       "User-Agent": req.header("User-Agent")!,
-      "X-Forwarded-For": req.header("Cf-Connecting-Ip")!,
     },
   });
 };
