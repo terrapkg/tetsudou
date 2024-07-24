@@ -29,6 +29,7 @@ export const postEvent = async (req: HonoRequest) => {
     headers: {
       "Content-Type": "application/json",
       "User-Agent": req.header("User-Agent")!,
+      "x-real-ip": req.header("Cf-Connecting-Ip")!,
     },
   });
 };
