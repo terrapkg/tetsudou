@@ -1,0 +1,47 @@
+[
+  {
+    "url": "repos.fyralabs.com/terra41",
+    "asn": 24940,
+    "continent": "EU",
+    "country": "DE",
+    "lat": 50.5597,
+    "lon": 6.7705,
+    "protocols": ["https"]
+  },
+  {
+    "url": "fyra.sakamoto.pl/terra41",
+    "asn": 204880,
+    "continent": "EU",
+    "country": "PL",
+    "lat": 52.2412,
+    "lon": 20.9831,
+    "protocols": ["https"]
+  },
+  {
+    "url": "mirror.funami.tech/fyralabs/terra41",
+    "asn": 31898,
+    "continent": "AS",
+    "country": "KR",
+    "lat": 37.5308,
+    "lon": 126.8751,
+    "protocols": ["https"]
+  },
+  {
+    "url": "mirror.us.helium.ws/fyralabs/terra41",
+    "asn": 31898,
+    "continent": "NA",
+    "country": "US",
+    "lat": 39.0395,
+    "lon": -77.4918,
+    "protocols": ["https"]
+  },
+  { 
+    "url": "fyralabs.starfruit.infra.matteodev.xyz/terra41",
+    "asn": 51167,
+    "continent": "EU",
+    "country": "DE",
+    "lat": 49.4542,
+    "lon": 11.0775,
+    "protocols": ["https"]
+  }
+]
