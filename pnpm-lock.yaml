@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/zod-validator':
         specifier: ^0.4.1
-        version: 0.4.1(hono@4.6.6)(zod@3.23.8)
+        version: 0.4.1(hono@4.6.7)(zod@3.23.8)
       hono:
-        specifier: ^4.6.6
-        version: 4.6.6
+        specifier: ^4.6.7
+        version: 4.6.7
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -344,8 +344,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  hono@4.6.6:
-    resolution: {integrity: sha512-euUj5qwvtkG+p38GFs0LYacwaoS2hYRAGn9ysAggiwT2QBcPnT1XYUCW3hatW4C1KzAXTYuQ08BlVDJtAGuhlg==}
+  hono@4.6.7:
+    resolution: {integrity: sha512-wX4ZbOnzfNO61hUjuQbJ7OPGs1fWXXVVJ8VTPDb2Ls/x9HjCbVTm80Je6VTHMz5n5RGDtBgV9d9ZFZxBqx56ng==}
     engines: {node: '>=16.9.0'}
 
   is-binary-path@2.1.0:
@@ -647,9 +647,9 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/zod-validator@0.4.1(hono@4.6.6)(zod@3.23.8)':
+  '@hono/zod-validator@0.4.1(hono@4.6.7)(zod@3.23.8)':
     dependencies:
-      hono: 4.6.6
+      hono: 4.6.7
       zod: 3.23.8
 
   '@jridgewell/resolve-uri@3.1.2': {}
@@ -774,7 +774,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hono@4.6.6: {}
+  hono@4.6.7: {}
 
   is-binary-path@2.1.0:
     dependencies:
