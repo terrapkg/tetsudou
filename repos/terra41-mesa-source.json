@@ -1,6 +1,6 @@
 [
   {
-    "url": "repos.fyralabs.com/terrarawhide-extras-source",
+    "url": "repos.fyralabs.com/terra41-mesa-source",
     "asn": 24940,
     "continent": "EU",
     "country": "DE",
@@ -9,7 +9,7 @@
     "protocols": ["https"]
   },
   {
-    "url": "fyra.sakamoto.pl/terrarawhide-extras-source",
+    "url": "fyra.sakamoto.pl/terra41-mesa-source",
     "asn": 204880,
     "continent": "EU",
     "country": "PL",
@@ -18,7 +18,7 @@
     "protocols": ["https"]
   },
   {
-    "url": "mirror.us.helium.ws/fyralabs/terrarawhide-extras-source",
+    "url": "mirror.us.helium.ws/fyralabs/terra41-mesa-source",
     "asn": 31898,
     "continent": "NA",
     "country": "US",
@@ -27,7 +27,7 @@
     "protocols": ["https"]
   },
   {
-    "url": "fyralabs.starfruit.infra.matteodev.xyz/terrarawhide-extras-source",
+    "url": "fyralabs.starfruit.infra.matteodev.xyz/terra41-mesa-source",
     "asn": 51167,
     "continent": "EU",
     "country": "DE",
