@@ -5,7 +5,7 @@ import { RepomdInfo, Mirror } from "./types/tetsudou";
 import { Document, Hash, MFile, Resources } from "./types/metalink";
 import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
-import { cache } from "hono/cache";
+// import { cache } from "hono/cache";
 import { selectMirrors } from "./utils/selection";
 import { postEvent } from "./utils/plausible";
 
@@ -32,10 +32,10 @@ app.get(
     c.executionCtx.waitUntil(postEvent(c.req));
     await next();
   },
-  cache({
-    cacheName: "tetsudou",
-    cacheControl: "max-age=300",
-  }),
+  // cache({
+  //   cacheName: "tetsudou",
+  //   cacheControl: "max-age=300",
+  // }),
   zValidator("query", metalinkParams),
   async (c) => {
     const { repo, arch } = c.req.valid("query");
