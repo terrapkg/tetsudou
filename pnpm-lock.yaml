@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/zod-validator':
         specifier: ^0.4.2
-        version: 0.4.2(hono@4.7.0)(zod@3.24.1)
+        version: 0.4.2(hono@4.7.1)(zod@3.24.1)
       hono:
-        specifier: ^4.7.0
-        version: 4.7.0
+        specifier: ^4.7.1
+        version: 4.7.1
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -294,8 +294,8 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  hono@4.7.0:
-    resolution: {integrity: sha512-hV97aIR4WYbG30k234sD9B3VNr1ZWdQRmrVF76LKFlmI7O9Yo70mG9+mFwyQ6Sjrz4wH71GfnBxv6CPjcx3QNw==}
+  hono@4.7.1:
+    resolution: {integrity: sha512-V3eWoPkBxoNgFCkSc5Y5rpLF6YoQQx1pkYO4qrF6YfOw8RZbujUNlJLZCxh0z9gZct70+je2Ih7Zrdpv21hP9w==}
     engines: {node: '>=16.9.0'}
 
   magic-string@0.25.9:
@@ -526,9 +526,9 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/zod-validator@0.4.2(hono@4.7.0)(zod@3.24.1)':
+  '@hono/zod-validator@0.4.2(hono@4.7.1)(zod@3.24.1)':
     dependencies:
-      hono: 4.7.0
+      hono: 4.7.1
       zod: 3.24.1
 
   '@jridgewell/resolve-uri@3.1.2': {}
@@ -601,7 +601,7 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
-  hono@4.7.0: {}
+  hono@4.7.1: {}
 
   magic-string@0.25.9:
     dependencies:
