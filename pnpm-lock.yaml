@@ -8,18 +8,18 @@ importers:
 
   .:
     dependencies:
-      '@hono/zod-validator':
-        specifier: ^0.4.3
-        version: 0.4.3(hono@4.7.4)(zod@3.24.2)
+      '@hono/arktype-validator':
+        specifier: ^2.0.0
+        version: 2.0.0(arktype@2.1.9)(hono@4.7.4)
+      arktype:
+        specifier: ^2.1.9
+        version: 2.1.9
       hono:
         specifier: ^4.7.4
         version: 4.7.4
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
-      zod:
-        specifier: ^3.24.2
-        version: 3.24.2
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20250310.0
@@ -35,6 +35,12 @@ importers:
         version: 3.114.1(@cloudflare/workers-types@4.20250310.0)
 
 packages:
+
+  '@ark/schema@0.44.4':
+    resolution: {integrity: sha512-TsZTX+k5J7xsGABsFjVdRUNgViGDMLv73sikBM8JNxC4STe0suTuMNa1OJ/AFP2N+LpJ1zL9tdWlg28PRqAYhg==}
+
+  '@ark/util@0.44.4':
+    resolution: {integrity: sha512-zLfNZrsq5Dq+8B0pHJwL/wD3xNBHb8FoP0FuPB455w7HpqVaqO5qPXvn+YoO8v1Y6pNwLVsM9vCIiO221LoODQ==}
 
   '@cloudflare/kv-asset-handler@0.3.4':
     resolution: {integrity: sha512-YLPHc8yASwjNkmcDMQMY35yiWjoKAKnhUbPRszBRS0YgH+IXtsMp61j+yTcnCE3oO2DgP0U3iejLC8FTtKDC8Q==}
@@ -235,11 +241,11 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@hono/zod-validator@0.4.3':
-    resolution: {integrity: sha512-xIgMYXDyJ4Hj6ekm9T9Y27s080Nl9NXHcJkOvkXPhubOLj8hZkOL8pDnnXfvCf5xEE8Q4oMFenQUZZREUY2gqQ==}
+  '@hono/arktype-validator@2.0.0':
+    resolution: {integrity: sha512-ICNZrK6Qcw6gyPfW53ONXI4JomRcks0fQhqzn9EWsfr6nlL6BNXQ96vIgVDU8qimcbJ2m3GJFAqgzOvWbZk3jw==}
     peerDependencies:
-      hono: '>=3.9.0'
-      zod: ^3.19.1
+      arktype: ^2.0.0-dev.14
+      hono: '*'
 
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
@@ -364,6 +370,9 @@ packages:
     resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+
+  arktype@2.1.9:
+    resolution: {integrity: sha512-bq46shcLpfop4D9acVQN/+quZ+hIGs4OUzoLq2vCaZLdkITOlWkfamBk9abMuC6fbgxW1fu/2PamcQgggWhTwQ==}
 
   as-table@1.0.55:
     resolution: {integrity: sha512-xvsWESUJn0JN421Xb9MQw6AsMHRCUknCe0Wjlxvjud80mU4E6hQf1A6NzQKcYNmYw62MfzEtXc+badstZP3JpQ==}
@@ -565,10 +574,13 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
-
 snapshots:
+
+  '@ark/schema@0.44.4':
+    dependencies:
+      '@ark/util': 0.44.4
+
+  '@ark/util@0.44.4': {}
 
   '@cloudflare/kv-asset-handler@0.3.4':
     dependencies:
@@ -684,10 +696,10 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/zod-validator@0.4.3(hono@4.7.4)(zod@3.24.2)':
+  '@hono/arktype-validator@2.0.0(arktype@2.1.9)(hono@4.7.4)':
     dependencies:
+      arktype: 2.1.9
       hono: 4.7.4
-      zod: 3.24.2
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -776,6 +788,11 @@ snapshots:
   acorn-walk@8.3.2: {}
 
   acorn@8.14.0: {}
+
+  arktype@2.1.9:
+    dependencies:
+      '@ark/schema': 0.44.4
+      '@ark/util': 0.44.4
 
   as-table@1.0.55:
     dependencies:
@@ -1017,5 +1034,3 @@ snapshots:
       stacktracey: 2.1.8
 
   zod@3.22.3: {}
-
-  zod@3.24.2: {}

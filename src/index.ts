@@ -1,6 +1,6 @@
-import { zValidator } from "@hono/zod-validator";
+import { arktypeValidator } from "@hono/arktype-validator";
 import { Hono } from "hono";
-import { z } from "zod";
+import { type } from "arktype";
 import { RepomdInfo, Mirror } from "./types/tetsudou";
 import { Document, Hash, MFile, Resources } from "./types/metalink";
 import { HTTPException } from "hono/http-exception";
@@ -15,10 +15,10 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-const metalinkParams = z.object({
-  repo: z.string(),
-  arch: z.string().optional(),
-  country: z.string().optional(),
+const metalinkParams = type({
+  repo: "string",
+  arch: "string?",
+  country: "string?",
 });
 
 app.get("/", (c) => {
@@ -36,7 +36,7 @@ app.get(
   //   cacheName: "tetsudou",
   //   cacheControl: "max-age=300",
   // }),
-  zValidator("query", metalinkParams),
+  arktypeValidator("query", metalinkParams),
   async (c) => {
     const { repo, arch } = c.req.valid("query");
 
@@ -52,7 +52,7 @@ app.get(
     const archCompatibleMirrors = mirrorList.filter(
       // 1. If the mirror's arch is undefined, we assume it's an anyarch repo, and match it
       // 2. If the mirror's arch is the same as the requested arch, match it
-      (mirror) => mirror.arch === undefined || mirror.arch === arch,
+      (mirror) => mirror.arch === undefined || mirror.arch === arch
     );
     const selectedMirrors = selectMirrors(c.req.raw, archCompatibleMirrors);
 
@@ -73,7 +73,7 @@ app.get(
             preference: mirror.preference,
           },
           _text: `${protocol}://${mirror.url}/repodata/repomd.xml`,
-        })),
+        }))
       ),
     };
 
@@ -83,7 +83,7 @@ app.get(
           type,
         },
         _text: value,
-      }),
+      })
     );
 
     const file: MFile = {
@@ -115,7 +115,7 @@ app.get(
     };
 
     return c.text(xml.js2xml(document, { compact: true }));
-  },
+  }
 );
 
 export default app;
