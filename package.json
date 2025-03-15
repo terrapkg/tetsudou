@@ -4,10 +4,10 @@
     "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.4.3",
+    "@hono/arktype-validator": "^2.0.0",
+    "arktype": "^2.1.9",
     "hono": "^4.7.4",
-    "xml-js": "^1.6.11",
-    "zod": "^3.24.2"
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250310.0",
