@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/arktype-validator':
         specifier: ^2.0.0
-        version: 2.0.0(arktype@2.1.15)(hono@4.7.5)
+        version: 2.0.0(arktype@2.1.19)(hono@4.7.5)
       arktype:
-        specifier: ^2.1.15
-        version: 2.1.15
+        specifier: ^2.1.19
+        version: 2.1.19
       hono:
         specifier: ^4.7.5
         version: 4.7.5
@@ -36,11 +36,11 @@ importers:
 
 packages:
 
-  '@ark/schema@0.45.5':
-    resolution: {integrity: sha512-RW25FuQRcn4Mc33auOkEL1CLuyj86LmI5YGeuhYYrxEQqK23D99m5T+MGBuOSAbECBtQ8VnI4BaC5Hbb7Ly6tQ==}
+  '@ark/schema@0.45.9':
+    resolution: {integrity: sha512-rG0v/JI0sibn/0wERAHTYVLCtEqoMP2IIlxnb+S5DrEjCI5wpubbZSWMDW50tZ8tV6FANu6zzHDeeKbp6lsZdg==}
 
-  '@ark/util@0.45.5':
-    resolution: {integrity: sha512-BbuDOKJJYZ2dzZDNhBavkhgGD2hv4/idEhXpEPA5weOlE9/kU7XwAvEWn74tCuySHrD7peDqe2Ct/EDUlM40qg==}
+  '@ark/util@0.45.9':
+    resolution: {integrity: sha512-0WYNAb8aRGp7dNt6xIvIrRzL7V1XL3u3PK2vcklhtTrdaP235DjC9qJhzidrxtWr68mA5ySSjUrgrXk622bKkw==}
 
   '@cloudflare/kv-asset-handler@0.4.0':
     resolution: {integrity: sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA==}
@@ -379,8 +379,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  arktype@2.1.15:
-    resolution: {integrity: sha512-ro31NmDxOEFysUjSQL4O9Q12sQuobImqXyqQbWzK7LNB/gvfflnZyeNBsysZYf5HP3pY39P9EgynMYiyqbJQ1g==}
+  arktype@2.1.19:
+    resolution: {integrity: sha512-notORSuTSpfLV7rq0kYC4mTgIVlVR0xQuvtFxOaE9aKiXyON/kgoIBwZZcKeSSb4BebNcfJoGlxJicAUl/HMdw==}
 
   as-table@1.0.55:
     resolution: {integrity: sha512-xvsWESUJn0JN421Xb9MQw6AsMHRCUknCe0Wjlxvjud80mU4E6hQf1A6NzQKcYNmYw62MfzEtXc+badstZP3JpQ==}
@@ -560,11 +560,11 @@ packages:
 
 snapshots:
 
-  '@ark/schema@0.45.5':
+  '@ark/schema@0.45.9':
     dependencies:
-      '@ark/util': 0.45.5
+      '@ark/util': 0.45.9
 
-  '@ark/util@0.45.5': {}
+  '@ark/util@0.45.9': {}
 
   '@cloudflare/kv-asset-handler@0.4.0':
     dependencies:
@@ -679,9 +679,9 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/arktype-validator@2.0.0(arktype@2.1.15)(hono@4.7.5)':
+  '@hono/arktype-validator@2.0.0(arktype@2.1.19)(hono@4.7.5)':
     dependencies:
-      arktype: 2.1.15
+      arktype: 2.1.19
       hono: 4.7.5
 
   '@img/sharp-darwin-arm64@0.33.5':
@@ -772,10 +772,10 @@ snapshots:
 
   acorn@8.14.0: {}
 
-  arktype@2.1.15:
+  arktype@2.1.19:
     dependencies:
-      '@ark/schema': 0.45.5
-      '@ark/util': 0.45.5
+      '@ark/schema': 0.45.9
+      '@ark/util': 0.45.9
 
   as-table@1.0.55:
     dependencies:

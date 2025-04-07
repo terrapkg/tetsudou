@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "@hono/arktype-validator": "^2.0.0",
-    "arktype": "^2.1.15",
+    "arktype": "^2.1.19",
     "hono": "^4.7.5",
     "xml-js": "^1.6.11"
   },
