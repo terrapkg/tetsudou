@@ -34,5 +34,14 @@
     "lat": 49.4542,
     "lon": 11.0775,
     "protocols": ["https"]
+  },
+  {
+    "url": "mirror.alebcay.com/files/fyralabs/terrarawhide-mesa-source",
+    "asn": 36352,
+    "continent": "NA",
+    "country": "US",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "protocols": ["https"]
   }
 ]
