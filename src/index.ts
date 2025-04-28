@@ -111,6 +111,7 @@ app.get(
         _attributes: {
           version: "3.0",
           xmlns: "http://www.metalinker.org/",
+          "xmlns:mm0": "http://fedorahosted.org/mirrormanager",
           type: "dynamic",
           generator: "tetsudou",
         },
