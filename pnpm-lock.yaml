@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@hono/arktype-validator':
-        specifier: ^2.0.0
-        version: 2.0.0(arktype@2.1.20)(hono@4.7.7)
+        specifier: ^2.0.1
+        version: 2.0.1(arktype@2.1.20)(hono@4.7.7)
       arktype:
         specifier: ^2.1.20
         version: 2.1.20
@@ -249,8 +249,8 @@ packages:
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
 
-  '@hono/arktype-validator@2.0.0':
-    resolution: {integrity: sha512-ICNZrK6Qcw6gyPfW53ONXI4JomRcks0fQhqzn9EWsfr6nlL6BNXQ96vIgVDU8qimcbJ2m3GJFAqgzOvWbZk3jw==}
+  '@hono/arktype-validator@2.0.1':
+    resolution: {integrity: sha512-Z4PQFtzgbGneBap+TTViRIBAoUWbwEwg8PaKNqALAP6z9N2ksJI81PfcsSQNUzwtrn8LipkMvBb8/D9Pei2GJw==}
     peerDependencies:
       arktype: ^2.0.0-dev.14
       hono: '*'
@@ -679,7 +679,7 @@ snapshots:
 
   '@fastify/busboy@2.1.1': {}
 
-  '@hono/arktype-validator@2.0.0(arktype@2.1.20)(hono@4.7.7)':
+  '@hono/arktype-validator@2.0.1(arktype@2.1.20)(hono@4.7.7)':
     dependencies:
       arktype: 2.1.20
       hono: 4.7.7
