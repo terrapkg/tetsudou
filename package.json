@@ -13,6 +13,6 @@
     "@cloudflare/workers-types": "^4.20250607.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "wrangler": "^4.18.0"
+    "wrangler": "^4.19.1"
   }
 }
