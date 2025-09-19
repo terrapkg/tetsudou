@@ -6,13 +6,13 @@
   "dependencies": {
     "@hono/arktype-validator": "^2.0.1",
     "arktype": "^2.1.22",
-    "hono": "^4.9.7",
+    "hono": "^4.9.8",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250913.0",
+    "@cloudflare/workers-types": "^4.20250919.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.2",
-    "wrangler": "^4.37.0"
+    "wrangler": "^4.38.0"
   }
 }
