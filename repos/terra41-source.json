@@ -26,15 +26,6 @@
     "lon": -77.4918,
     "protocols": ["https"]
   },
-  { 
-    "url": "fyralabs.starfruit.infra.matteodev.xyz/terra41-source",
-    "asn": 51167,
-    "continent": "EU",
-    "country": "DE",
-    "lat": 49.4542,
-    "lon": 11.0775,
-    "protocols": ["https"]
-  },
   {
     "url": "mirror.alebcay.com/files/fyralabs/terra41-source",
     "asn": 36352,

@@ -27,15 +27,6 @@
     "protocols": ["https"]
   },
   {
-    "url": "fyralabs.starfruit.infra.matteodev.xyz/terrarawhide-nvidia-source",
-    "asn": 51167,
-    "continent": "EU",
-    "country": "DE",
-    "lat": 49.4542,
-    "lon": 11.0775,
-    "protocols": ["https"]
-  },
-  {
     "url": "mirror.alebcay.com/files/fyralabs/terrarawhide-nvidia-source",
     "asn": 36352,
     "continent": "NA",
