@@ -34,14 +34,5 @@
     "lat": 39.0395,
     "lon": -77.4918,
     "protocols": ["https"]
-  },
-  {
-    "url": "fyralabs.starfruit.infra.matteodev.xyz/terra43",
-    "asn": 51167,
-    "continent": "EU",
-    "country": "DE",
-    "lat": 49.4542,
-    "lon": 11.0775,
-    "protocols": ["https"]
   }
 ]
