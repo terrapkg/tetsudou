@@ -26,7 +26,15 @@ api.post("/repos/:repo/refresh", async (c) => {
     JSON.stringify(tetsudouMetadata),
   );
 
-  return c.status(200);
+  return c.status(204);
+});
+
+api.delete("/repos/:repo", async (c) => {
+  const repo = c.req.param("repo");
+
+  await c.env.TETSUDOU.delete(`metadata/${repo}`);
+
+  return c.status(204);
 });
 
 export default api;
