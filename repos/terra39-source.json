@@ -25,5 +25,14 @@
     "lat": 39.0395,
     "lon": -77.4918,
     "protocols": ["https"]
+  },
+  {
+    "url": "terra.june.fish/terra39-source",
+    "asn": 217,
+    "continent": "NA",
+    "country": "US",
+    "lat": 44.98,
+    "lon": -93.2638,
+    "protocols": ["https"]
   }
 ]
