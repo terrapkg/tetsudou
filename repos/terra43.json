@@ -34,5 +34,14 @@
     "lat": 39.0395,
     "lon": -77.4918,
     "protocols": ["https"]
+  },
+  {
+    "url": "mirror.alebcay.com/files/fyralabs/terra43",
+    "asn": 36352,
+    "continent": "NA",
+    "country": "US",
+    "lat": 34.0549,
+    "lon": -118.2426,
+    "protocols": ["https"]
   }
 ]
