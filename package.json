@@ -10,7 +10,7 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20251008.0",
+    "@cloudflare/workers-types": "^4.20251011.0",
     "prettier": "^3.6.2",
     "typescript": "^5.9.3",
     "wrangler": "^4.40.3"
