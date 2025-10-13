@@ -6,7 +6,7 @@
     "noEmit": true,
     "strict": true,
     "lib": ["ESNext"],
-    "types": ["@cloudflare/workers-types"],
+    "types": ["./worker-configuration.d.ts", "node"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "skipLibCheck": true
