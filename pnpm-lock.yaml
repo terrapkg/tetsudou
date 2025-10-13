@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@hono/arktype-validator':
         specifier: ^2.0.1
-        version: 2.0.1(arktype@2.1.22)(hono@4.9.10)
+        version: 2.0.1(arktype@2.1.22)(hono@4.9.12)
       arktype:
         specifier: ^2.1.22
         version: 2.1.22
       hono:
-        specifier: ^4.9.10
-        version: 4.9.10
+        specifier: ^4.9.12
+        version: 4.9.12
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -445,8 +445,8 @@ packages:
   glob-to-regexp@0.4.1:
     resolution: {integrity: sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==}
 
-  hono@4.9.10:
-    resolution: {integrity: sha512-AlI15ijFyKTXR7eHo7QK7OR4RoKIedZvBuRjO8iy4zrxvlY5oFCdiRG/V/lFJHCNXJ0k72ATgnyzx8Yqa5arug==}
+  hono@4.9.12:
+    resolution: {integrity: sha512-SrTC0YxqPwnN7yKa8gg/giLyQ2pILCKoideIHbYbFQlWZjYt68D2A4Ae1hehO/aDQ6RmTcpqOV/O2yBtMzx/VQ==}
     engines: {node: '>=16.9.0'}
 
   is-arrayish@0.3.4:
@@ -680,10 +680,10 @@ snapshots:
   '@esbuild/win32-x64@0.25.4':
     optional: true
 
-  '@hono/arktype-validator@2.0.1(arktype@2.1.22)(hono@4.9.10)':
+  '@hono/arktype-validator@2.0.1(arktype@2.1.22)(hono@4.9.12)':
     dependencies:
       arktype: 2.1.22
-      hono: 4.9.10
+      hono: 4.9.12
 
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
@@ -857,7 +857,7 @@ snapshots:
 
   glob-to-regexp@0.4.1: {}
 
-  hono@4.9.10: {}
+  hono@4.9.12: {}
 
   is-arrayish@0.3.4: {}
 
