@@ -16,20 +16,22 @@ Tetsudou is probably not your favourite way to generate metalinks because
 
 ### Metalink
 
-Store the data for all repos in KV pairs in the namespace `TETSUDOU_REPOS`, where the keys are repo
-ids used in `?repo=`, while the values are just arrays of mirror data specified in JSON like below:
+Store the data for all mirrors in the KV key `mirrors` in the namespace `TETSUDOU`, where the values are just arrays of mirror data specified in JSON like below:
 
 ```json
 [
   {
-    "url": "repos.fyralabs.com/terra39/",
+    "url": "repos.fyralabs.com/{repo_id}",
     "asn": 24940,
     "continent": "EU",
     "country": "DE",
-    "lat": 50.4779,
-    "lon": 12.3713,
-    "arch": "x86_64",
-    "protocols": ["http", "https"]
+    "lat": 50.5597,
+    "lon": 6.7705,
+    "protocols": ["https"],
+    "repos": [
+      "terra39",
+      "terra39-source",
+    ]
   },
   ...
 ]
