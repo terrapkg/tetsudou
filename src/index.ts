@@ -44,15 +44,24 @@ app.get(
   async (c) => {
     const { repo, arch } = c.req.valid("query");
 
-    const mirrors = await c.env.TETSUDOU.get("mirrors/" + repo);
+    const mirrors = await c.env.TETSUDOU.get("mirrors");
 
     if (mirrors === null) {
+      throw new HTTPException(404, {
+        message: "No mirrors found",
+      });
+    }
+
+    const mirrorList = (JSON.parse(mirrors) as Mirror[]).filter((config) =>
+      config.repos.includes(repo),
+    );
+
+    if (mirrorList.length === 0) {
       throw new HTTPException(404, {
         message: "No mirrors found for this repo",
       });
     }
 
-    const mirrorList = JSON.parse(mirrors) as Mirror[];
     const archCompatibleMirrors = mirrorList.filter(
       // 1. If the mirror's arch is undefined, we assume it's an anyarch repo, and match it
       // 2. If the mirror's arch is the same as the requested arch, match it
@@ -76,7 +85,7 @@ app.get(
             location: mirror.country,
             preference: mirror.preference,
           },
-          _text: `${protocol}://${mirror.url}/repodata/repomd.xml`,
+          _text: `${protocol}://${mirror.url.replace("{repo_id}", repo)}/repodata/repomd.xml`,
         })),
       ),
     };
