@@ -64,8 +64,7 @@
     "lon": 20.9831,
     "protocols": ["https"],
     "repos": [
-      "terra39",
-      "terra39-source",
+      "kaibutsu",
       "terra40",
       "terra40-source",
       "terra41",
@@ -121,8 +120,7 @@
     "lon": -77.4918,
     "protocols": ["https"],
     "repos": [
-      "terra39",
-      "terra39-source",
+      "kaibutsu",
       "terra40",
       "terra40-source",
       "terra41",
@@ -178,8 +176,7 @@
     "lon": -93.2638,
     "protocols": ["https"],
     "repos": [
-      "terra39",
-      "terra39-source",
+      "kaibutsu",
       "terra40",
       "terra40-source",
       "terra41",
@@ -235,7 +232,7 @@
     "lon": -118.2426,
     "protocols": ["https"],
     "repos": [
-      "terra39",
+      "kaibutsu",
       "terra40",
       "terra40-source",
       "terra41",
