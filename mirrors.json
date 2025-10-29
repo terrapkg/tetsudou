@@ -8,8 +8,7 @@
     "lon": 6.7705,
     "protocols": ["https"],
     "repos": [
-      "terra39",
-      "terra39-source",
+      "kaibutsu",
       "terra40",
       "terra40-source",
       "terra41",
