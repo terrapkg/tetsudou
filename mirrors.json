@@ -232,7 +232,6 @@
     "lon": 126.8751,
     "protocols": ["https"],
     "repos": [
-      "terra39",
       "terra40",
       "terra41",
       "terra41-extras",
