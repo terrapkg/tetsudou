@@ -10,10 +10,10 @@ importers:
     dependencies:
       '@hono/arktype-validator':
         specifier: ^2.0.1
-        version: 2.0.1(arktype@2.1.23)(hono@4.10.3)
+        version: 2.0.1(arktype@2.1.25)(hono@4.10.3)
       arktype:
-        specifier: ^2.1.23
-        version: 2.1.23
+        specifier: ^2.1.25
+        version: 2.1.25
       hono:
         specifier: ^4.10.3
         version: 4.10.3
@@ -36,14 +36,11 @@ importers:
 
 packages:
 
-  '@ark/regex@0.0.0':
-    resolution: {integrity: sha512-p4vsWnd/LRGOdGQglbwOguIVhPmCAf5UzquvnDoxqhhPWTP84wWgi1INea8MgJ4SnI2gp37f13oA4Waz9vwNYg==}
+  '@ark/schema@0.53.0':
+    resolution: {integrity: sha512-1PB7RThUiTlmIu8jbSurPrhHpVixPd4C+xNBUF/HrjIENCeDcAMg36n5mpMzED7OQGDVIzpfXXiMnaTiutjHJw==}
 
-  '@ark/schema@0.50.0':
-    resolution: {integrity: sha512-hfmP82GltBZDadIOeR3argKNlYYyB2wyzHp0eeAqAOFBQguglMV/S7Ip2q007bRtKxIMLDqFY6tfPie1dtssaQ==}
-
-  '@ark/util@0.50.0':
-    resolution: {integrity: sha512-tIkgIMVRpkfXRQIEf0G2CJryZVtHVrqcWHMDa5QKo0OEEBu0tHkRSIMm4Ln8cd8Bn9TPZtvc/kE2Gma8RESPSg==}
+  '@ark/util@0.53.0':
+    resolution: {integrity: sha512-TGn4gLlA6dJcQiqrtCtd88JhGb2XBHo6qIejsDre+nxpGuUVW4G3YZGVrwjNBTO0EyR+ykzIo4joHJzOj+/cpA==}
 
   '@cloudflare/kv-asset-handler@0.4.0':
     resolution: {integrity: sha512-+tv3z+SPp+gqTIcImN9o0hqE9xyfQjI1XD9pL6NuKjua9B1y7mNYv0S9cP+QEbA4ppVgGZEmKOvHX5G5Ei1CVA==}
@@ -394,8 +391,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  arktype@2.1.23:
-    resolution: {integrity: sha512-tyxNWX6xJVMb2EPJJ3OjgQS1G/vIeQRrZuY4DeBNQmh8n7geS+czgbauQWB6Pr+RXiOO8ChEey44XdmxsqGmfQ==}
+  arkregex@0.0.2:
+    resolution: {integrity: sha512-ttjDUICBVoXD/m8bf7eOjx8XMR6yIT2FmmW9vsN0FCcFOygEZvvIX8zK98tTdXkzi0LkRi5CmadB44jFEIyDNA==}
+
+  arktype@2.1.25:
+    resolution: {integrity: sha512-fdj10sNlUPeDRg1QUqMbzJ4Q7gutTOWOpLUNdcC4vxeVrN0G+cbDOvLbuxQOFj/NDAode1G7kwFv4yKwQvupJg==}
 
   blake3-wasm@2.1.5:
     resolution: {integrity: sha512-F1+K8EbfOZE49dtoPtmxUQrpXaBIl3ICvasLh+nJta0xkz+9kF/7uet9fLnwKqhDrmj6g+6K3Tw9yQPUg2ka5g==}
@@ -566,15 +566,11 @@ packages:
 
 snapshots:
 
-  '@ark/regex@0.0.0':
+  '@ark/schema@0.53.0':
     dependencies:
-      '@ark/util': 0.50.0
+      '@ark/util': 0.53.0
 
-  '@ark/schema@0.50.0':
-    dependencies:
-      '@ark/util': 0.50.0
-
-  '@ark/util@0.50.0': {}
+  '@ark/util@0.53.0': {}
 
   '@cloudflare/kv-asset-handler@0.4.0':
     dependencies:
@@ -687,9 +683,9 @@ snapshots:
   '@esbuild/win32-x64@0.25.4':
     optional: true
 
-  '@hono/arktype-validator@2.0.1(arktype@2.1.23)(hono@4.10.3)':
+  '@hono/arktype-validator@2.0.1(arktype@2.1.25)(hono@4.10.3)':
     dependencies:
-      arktype: 2.1.23
+      arktype: 2.1.25
       hono: 4.10.3
 
   '@img/sharp-darwin-arm64@0.33.5':
@@ -796,11 +792,15 @@ snapshots:
 
   acorn@8.14.0: {}
 
-  arktype@2.1.23:
+  arkregex@0.0.2:
     dependencies:
-      '@ark/regex': 0.0.0
-      '@ark/schema': 0.50.0
-      '@ark/util': 0.50.0
+      '@ark/util': 0.53.0
+
+  arktype@2.1.25:
+    dependencies:
+      '@ark/schema': 0.53.0
+      '@ark/util': 0.53.0
+      arkregex: 0.0.2
 
   blake3-wasm@2.1.5: {}
 
