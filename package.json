@@ -6,7 +6,7 @@
   "dependencies": {
     "@hono/arktype-validator": "^2.0.1",
     "arktype": "^2.1.25",
-    "hono": "^4.10.3",
+    "hono": "^4.10.4",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
