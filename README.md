@@ -29,8 +29,8 @@ Store the data for all mirrors in the KV key `mirrors` in the namespace `TETSUDO
     "lon": 6.7705,
     "protocols": ["https"],
     "repos": [
-      "terra39",
-      "terra39-source",
+      "terra43",
+      "terra43-source",
     ]
   },
   ...
