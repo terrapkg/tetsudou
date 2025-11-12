@@ -378,7 +378,6 @@
     "protocols": ["https"],
     "repos": [
       "kaibutsu",
-      "terra39",
       "terra40",
       "terra40-source",
       "terra41",
