@@ -21,9 +21,9 @@ importers:
         specifier: ^1.6.11
         version: 1.6.11
     devDependencies:
-      '@cloudflare/workers-types':
-        specifier: ^4.20260210.0
-        version: 4.20260210.0
+      '@types/node':
+        specifier: ^25.2.3
+        version: 25.2.3
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -420,6 +420,9 @@ packages:
   '@speed-highlight/core@1.2.14':
     resolution: {integrity: sha512-G4ewlBNhUtlLvrJTb88d2mdy2KRijzs4UhnlrOSRT4bmjh/IqNElZa3zkrZ+TC47TwtlDWzVLFADljF1Ijp5hA==}
 
+  '@types/node@25.2.3':
+    resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
+
   arkregex@0.0.5:
     resolution: {integrity: sha512-ncYjBdLlh5/QnVsAA8De16Tc9EqmYM7y/WU9j+236KcyYNUXogpz3sC4ATIZYzzLxwI+0sEOaQLEmLmRleaEXw==}
 
@@ -499,6 +502,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+
   undici@7.18.2:
     resolution: {integrity: sha512-y+8YjDFzWdQlSE9N5nzKMT3g4a5UBX1HKowfdXh0uvAnTaqqwqB92Jt4UXBAeKekDs5IaDKyJFR4X1gYVCgXcw==}
     engines: {node: '>=20.18.1'}
@@ -574,7 +580,8 @@ snapshots:
   '@cloudflare/workerd-windows-64@1.20260210.0':
     optional: true
 
-  '@cloudflare/workers-types@4.20260210.0': {}
+  '@cloudflare/workers-types@4.20260210.0':
+    optional: true
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -789,6 +796,10 @@ snapshots:
 
   '@speed-highlight/core@1.2.14': {}
 
+  '@types/node@25.2.3':
+    dependencies:
+      undici-types: 7.16.0
+
   arkregex@0.0.5:
     dependencies:
       '@ark/util': 0.56.0
@@ -902,6 +913,8 @@ snapshots:
     optional: true
 
   typescript@5.9.3: {}
+
+  undici-types@7.16.0: {}
 
   undici@7.18.2: {}
 
