@@ -26,7 +26,7 @@ api.post("/repos/:repo/refresh", async (c) => {
     JSON.stringify(tetsudouMetadata),
   );
 
-  return c.status(204);
+  return c.body(null, 204);
 });
 
 api.delete("/repos/:repo", async (c) => {
@@ -34,7 +34,7 @@ api.delete("/repos/:repo", async (c) => {
 
   await c.env.TETSUDOU.delete(`metadata/${repo}`);
 
-  return c.status(204);
+  return c.body(null, 204);
 });
 
 export default api;
