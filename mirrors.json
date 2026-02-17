@@ -1,5 +1,7 @@
 [
   {
+    "id": "fyralabs",
+    "name": "Fyra Labs",
     "url": "repos.fyralabs.com/{repo_id}",
     "asn": 24940,
     "continent": "EU",
@@ -72,6 +74,8 @@
     ]
   },
   {
+    "id": "sakamoto",
+    "name": "Sakamoto",
     "url": "fyra.sakamoto.pl/{repo_id}",
     "asn": 204880,
     "continent": "EU",
@@ -144,6 +148,8 @@
     ]
   },
   {
+    "id": "albony",
+    "name": "Albony",
     "url": "mirror.del2.albony.in/fyra/{repo_id}",
     "asn": 135772,
     "continent": "AS",
@@ -216,6 +222,8 @@
     ]
   },
   {
+    "id": "helium",
+    "name": "Helium",
     "url": "mirror.us.helium.ws/fyralabs/{repo_id}",
     "asn": 31898,
     "continent": "NA",
@@ -288,6 +296,8 @@
     ]
   },
   {
+    "id": "junefish",
+    "name": "June Fish",
     "url": "mirror.june.fish/fyra/{repo_id}",
     "asn": 217,
     "continent": "NA",
@@ -360,6 +370,8 @@
     ]
   },
   {
+    "id": "funami",
+    "name": "Funami",
     "url": "mirror.funami.tech/fyralabs/{repo_id}",
     "asn": 31898,
     "continent": "AS",
@@ -403,6 +415,8 @@
     ]
   },
   {
+    "id": "alebcay",
+    "name": "Alebcay",
     "url": "mirror.alebcay.com/files/fyralabs/{repo_id}",
     "asn": 36352,
     "continent": "NA",
@@ -475,6 +489,8 @@
     ]
   },
   {
+    "id": "freedif",
+    "name": "Freedif",
     "url": "mirror.freedif.org/ultramarine/{repo_id}",
     "asn": 56300,
     "continent": "AS",
@@ -552,6 +568,8 @@
     ]
   },
   {
+    "id": "atl",
+    "name": "All Things Linux",
     "url": "mirror.allthingslinux.org/fyra/{repo_id}",
     "asn": 16276,
     "continent": "NA",
