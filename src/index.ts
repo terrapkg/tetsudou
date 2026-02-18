@@ -5,7 +5,6 @@ import { RepomdInfo, Mirror } from "./types/tetsudou";
 import { Document, Hash, MFile, Resources } from "./types/metalink";
 import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
-import { cache } from "hono/cache";
 import { selectMirrors } from "./utils/selection";
 import { postEvent } from "./utils/plausible";
 import api from "./api";
@@ -30,10 +29,6 @@ app.get(
     c.executionCtx.waitUntil(postEvent(c.req));
     await next();
   },
-  cache({
-    cacheName: "tetsudou",
-    cacheControl: "max-age=300",
-  }),
   arktypeValidator("query", metalinkParams, (result, c) => {
     if (!result.success) {
       return c.json({ success: false, errors: result.errors.summary }, 400);
