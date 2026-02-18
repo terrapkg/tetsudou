@@ -21,6 +21,7 @@ export const postEvent = async (req: HonoRequest) => {
       countme,
     },
     url: req.url,
+    interactive: false,
   };
 
   await fetch("https://plausible.fyralabs.com/api/event", {
@@ -29,7 +30,7 @@ export const postEvent = async (req: HonoRequest) => {
     headers: {
       "Content-Type": "application/json",
       "User-Agent": req.header("User-Agent")!,
-      "x-real-ip": req.header("Cf-Connecting-Ip")!,
+      "x-plausible-ip": req.header("Cf-Connecting-Ip")!,
     },
   });
 };
