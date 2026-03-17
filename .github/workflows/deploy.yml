@@ -11,10 +11,10 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          version: latest
-      - run: pnpm install
-      - run: pnpm run deploy
+          bun-version: latest
+      - run: bun ci
+      - run: bun run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

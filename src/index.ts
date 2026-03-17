@@ -5,15 +5,12 @@ import { RepomdInfo, Mirror } from "./types/tetsudou";
 import { Document, Hash, MFile, Resources } from "./types/metalink";
 import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
-import { cache } from "hono/cache";
 import { selectMirrors } from "./utils/selection";
 import { postEvent } from "./utils/plausible";
+import api from "./api";
 
-type Bindings = {
-  TETSUDOU: KVNamespace;
-};
-
-const app = new Hono<{ Bindings: Bindings }>();
+const app = new Hono<{ Bindings: Env }>();
+app.route("/api", api);
 
 const metalinkParams = type({
   repo: "string",
@@ -32,10 +29,6 @@ app.get(
     c.executionCtx.waitUntil(postEvent(c.req));
     await next();
   },
-  cache({
-    cacheName: "tetsudou",
-    cacheControl: "max-age=300",
-  }),
   arktypeValidator("query", metalinkParams, (result, c) => {
     if (!result.success) {
       return c.json({ success: false, errors: result.errors.summary }, 400);
@@ -69,9 +62,13 @@ app.get(
     );
     const selectedMirrors = selectMirrors(c.req.raw, archCompatibleMirrors);
 
-    const tetsudouMetadata = (await (
-      await fetch(`https://repos.fyralabs.com/${repo}/repodata/tetsudou.json`)
-    ).json()) as RepomdInfo;
+    const metadata = await c.env.TETSUDOU.get(`metadata/${repo}`);
+    if (metadata === null) {
+      throw new HTTPException(404, {
+        message: "No metadata found for this repo",
+      });
+    }
+    const tetsudouMetadata = JSON.parse(metadata) as RepomdInfo;
 
     const resources: Resources = {
       _attributes: {

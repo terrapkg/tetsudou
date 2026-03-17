@@ -21,6 +21,8 @@ Store the data for all mirrors in the KV key `mirrors` in the namespace `TETSUDO
 ```json
 [
   {
+    "id": "fyralabs",
+    "name": "Fyra Labs",
     "url": "repos.fyralabs.com/{repo_id}",
     "asn": 24940,
     "continent": "EU",
@@ -36,6 +38,8 @@ Store the data for all mirrors in the KV key `mirrors` in the namespace `TETSUDO
   ...
 ]
 ```
+
+Please note that the `id` field should be unique across all mirrors.
 
 ### Mirrorlist
 

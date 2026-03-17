@@ -3,9 +3,6 @@ compatibility_flags = [ "nodejs_compat" ]
 compatibility_date = "2024-09-23"
 account_id = "b5233d7eddf19b9902e2afab0a73ac11"
 
-# [vars]
-# MY_VARIABLE = "production_value"
-
 [[kv_namespaces]]
 binding = "TETSUDOU"
 id = "7e26e8aeb0734e4fac90858a80929ac6"

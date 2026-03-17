@@ -2,4 +2,4 @@
 
 : "${LOCAL:=false}"
 
-pnpm wrangler kv key put --binding=TETSUDOU --local="$LOCAL" "mirrors" "$(cat mirrors.json)"
+bunx wrangler kv key put --binding=TETSUDOU --local="$LOCAL" "mirrors" "$(cat mirrors.json)"
