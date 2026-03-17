@@ -502,8 +502,6 @@
     "protocols": ["https"],
     "repos": [
       "kaibutsu",
-      "terra40",
-      "terra40-source",
       "terra41",
       "terra41-extras",
       "terra41-extras-source",
@@ -554,8 +552,6 @@
       "terrarawhide-multimedia",
       "terrarawhide-multimedia-source",
       "terrarawhide-source",
-      "um40",
-      "um40-source",
       "um41",
       "um41-source",
       "um42",
