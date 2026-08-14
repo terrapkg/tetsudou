@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import { type } from "arktype";
 import { RepomdInfo, Mirror } from "./types/tetsudou";
 import { Document, Hash, MFile, Resources } from "./types/metalink";
+import { refreshRepo } from "./refresh";
 import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
 import { selectMirrors } from "./utils/selection";
@@ -129,4 +130,35 @@ app.get(
   },
 );
 
-export default app;
+const scheduled = async (
+  _controller: ScheduledController,
+  env: Env,
+  _ctx: ExecutionContext,
+) => {
+  const mirrors = await env.TETSUDOU.get("mirrors");
+  if (mirrors === null) {
+    throw new Error("No mirrors found");
+  }
+
+  const mirrorList = (JSON.parse(mirrors) as Mirror[])
+
+  const repos = new Set<string>();
+  for (const mirror of mirrorList) {
+    for (const repo of mirror.repos) {
+      repos.add(repo);
+    }
+  }
+
+  for (const repo of repos) {
+    try {
+      await refreshRepo(repo, env);
+    } catch (error) {
+      console.log(`Failed to refresh ${repo}`, error);
+    }
+  }
+};
+
+export default {
+  fetch: app.fetch,
+  scheduled,
+};

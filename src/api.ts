@@ -1,10 +1,9 @@
 // Authenticated API for controlling and querying Tetsudou
 
 import { Hono } from "hono";
-import { HTTPException } from "hono/http-exception";
-import { RepomdInfo } from "./types/tetsudou";
 import { bearerAuth } from "hono/bearer-auth";
 import { env } from "cloudflare:workers";
+import { refreshRepo } from "./refresh";
 
 const api = new Hono<{ Bindings: Env }>();
 api.use(bearerAuth({ token: env.API_KEY }));
@@ -13,18 +12,7 @@ api.use(bearerAuth({ token: env.API_KEY }));
 api.post("/repos/:repo/refresh", async (c) => {
   const repo = c.req.param("repo");
 
-  const response = await fetch(
-    `https://repos.fyralabs.com/${repo}/repodata/tetsudou.json`,
-  );
-  if (!response.ok) {
-    throw new HTTPException(500, { message: "Failed to fetch metadata" });
-  }
-  const tetsudouMetadata = (await response.json()) as RepomdInfo;
-
-  await c.env.TETSUDOU.put(
-    `metadata/${repo}`,
-    JSON.stringify(tetsudouMetadata),
-  );
+  await refreshRepo(repo, c.env)
 
   return c.body(null, 204);
 });
