@@ -2,6 +2,8 @@ import { RepomdInfo } from "./types/tetsudou";
 import { HTTPException } from "hono/http-exception";
 
 const RETRY_ATTEMPTS = 3;
+const ATTEMPT_DELAY_BASE = 1000;
+const ATTEMPT_DELAY_MULTIPLIER = 2;
 
 export const refreshRepo = async (
   repo: string,
@@ -20,6 +22,8 @@ export const refreshRepo = async (
     } catch (error) {
       console.log(`error requesting ${repo}. attempt #${i+1}`)
       console.log(error)
+      const delay = ATTEMPT_DELAY_BASE * ATTEMPT_DELAY_MULTIPLIER ** i
+      await new Promise((resolve, _) => setTimeout(resolve, delay))
     }
   }
 
