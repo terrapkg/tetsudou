@@ -6,6 +6,12 @@ account_id = "b5233d7eddf19b9902e2afab0a73ac11"
 [triggers]
 crons = [ "*/15 * * * *" ]
 
+[observability]
+enabled = true
+
+[observability.traces]
+enabled = true
+
 [[kv_namespaces]]
 binding = "TETSUDOU"
 id = "7e26e8aeb0734e4fac90858a80929ac6"
