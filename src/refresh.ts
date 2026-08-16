@@ -18,7 +18,8 @@ export const refreshRepo = async (
       }
       tetsudouMetadata = (await response.json()) as RepomdInfo;
     } catch (error) {
-      console.log(`error requesting ${repo}. attempt #${i}`)
+      console.log(`error requesting ${repo}. attempt #${i+1}`)
+      console.log(error)
     }
   }
 
