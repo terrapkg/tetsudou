@@ -20,8 +20,8 @@ export const refreshRepo = async (
       }
       tetsudouMetadata = (await response.json()) as RepomdInfo;
     } catch (error) {
-      console.log(`error requesting ${repo}. attempt #${i+1}`)
-      console.log(error)
+      console.error(`error requesting ${repo}. attempt #${i+1}`)
+      console.error(error)
       const delay = ATTEMPT_DELAY_BASE * ATTEMPT_DELAY_MULTIPLIER ** i
       await new Promise((resolve, _) => setTimeout(resolve, delay))
     }

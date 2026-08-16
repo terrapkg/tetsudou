@@ -143,7 +143,7 @@ const scheduled = async (
     try {
       await refreshRepo(repo, env);
     } catch (error) {
-      console.log(`Failed to refresh ${repo}`, error);
+      console.error(`Failed to refresh ${repo}`, error);
     }
   }
 };
