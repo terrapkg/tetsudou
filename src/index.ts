@@ -137,7 +137,7 @@ const scheduled = async (
 ) => {
   const repos = (await env.TETSUDOU.list({
     prefix: "metadata/"
-  })).keys.map(key => key.name)
+  })).keys.map(key => key.name.replace("metadata/", ''))
 
   for (const repo of repos) {
     try {
