@@ -135,19 +135,9 @@ const scheduled = async (
   env: Env,
   _ctx: ExecutionContext,
 ) => {
-  const mirrors = await env.TETSUDOU.get("mirrors");
-  if (mirrors === null) {
-    throw new Error("No mirrors found");
-  }
-
-  const mirrorList = (JSON.parse(mirrors) as Mirror[])
-
-  const repos = new Set<string>();
-  for (const mirror of mirrorList) {
-    for (const repo of mirror.repos) {
-      repos.add(repo);
-    }
-  }
+  const repos = (await env.TETSUDOU.list({
+    prefix: "metadata/"
+  })).keys.map(key => key.name)
 
   for (const repo of repos) {
     try {
