@@ -16,7 +16,13 @@ export const refreshRepo = async (
         `https://repos.fyralabs.com/${repo}/repodata/tetsudou.json`,
       );
       if (!response.ok) {
-        throw new HTTPException(500, { message: "Failed to fetch metadata" });
+        let response_body;
+        try {
+          response_body = await response.text()
+        } catch (error) {
+          response_body = String(error)
+        }
+        throw new Error("Failed to fetch metadata. " + response_body);
       }
       tetsudouMetadata = (await response.json()) as RepomdInfo;
     } catch (error) {
