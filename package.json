@@ -11,7 +11,7 @@
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@types/bun": "^1.4.0",
+    "@types/bun": "^1.4.2",
     "prettier": "^3.9.6",
     "typescript": "^7.0.2",
     "wrangler": "^4.128.0"
