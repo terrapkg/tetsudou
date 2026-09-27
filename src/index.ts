@@ -207,17 +207,11 @@ async function checkMirrorSync(env: Env) {
   for (const mirrorId in mirrorsWithoutPrimary) {
     const { syncState, data } = mirrorsWithoutPrimary[mirrorId]
 
-    let is_repo_synced = true
+    data.repos = data.repos.filter(repo => {
+      return Math.abs(syncState[repo] - primaryData.syncState[repo]) < 0.1
+    })
 
-    for (const repo in syncState) {
-      if (Math.abs(syncState[repo] - primaryData.syncState[repo]) > 0.1) { // doing this incase of floating point stupidness. i dont think its actually necessary
-        is_repo_synced = false;
-        console.log(mirrorId + " is not synced due to " + repo)
-        break
-      }
-    }
-
-    if (is_repo_synced) {
+    if (data.repos.length > 0) {
       syncedMirrors.push(data)
     }
   }
