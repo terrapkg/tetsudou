@@ -1,6 +1,8 @@
 export type Mirror = {
+  id: string;
   url: string;
   repos: string[];
+  primary: boolean;
   arch?: string; // some repos are noarch or anyarch (packages from all arches in one repo)
   asn: number;
   continent: string;
