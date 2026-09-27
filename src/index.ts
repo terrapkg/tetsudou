@@ -207,9 +207,15 @@ async function checkMirrorSync(env: Env) {
   for (const mirrorId in mirrorsWithoutPrimary) {
     const { syncState, data } = mirrorsWithoutPrimary[mirrorId]
 
+    const totalReposCount = data.repos.length
+
     data.repos = data.repos.filter(repo => {
       return Math.abs(syncState[repo] - primaryData.syncState[repo]) < 0.1
     })
+
+    const syncedReposCount = data.repos.length
+
+    console.log(`${mirrorId} - ${(syncedReposCount / totalReposCount * 100).toFixed(1)}% synced`)
 
     if (data.repos.length > 0) {
       syncedMirrors.push(data)
