@@ -38,7 +38,7 @@ app.get(
   async (c) => {
     const { repo, arch } = c.req.valid("query");
 
-    const mirrors = await c.env.TETSUDOU.get("mirrors");
+    const mirrors = await c.env.TETSUDOU.get("synced_mirrors");
 
     if (mirrors === null) {
       throw new HTTPException(404, {
@@ -130,11 +130,7 @@ app.get(
   },
 );
 
-const scheduled = async (
-  _controller: ScheduledController,
-  env: Env,
-  _ctx: ExecutionContext,
-) => {
+async function refreshAllRepos(env: Env) {
   const repos = (await env.TETSUDOU.list({
     prefix: "metadata/"
   })).keys.map(key => key.name.replace("metadata/", ''))
@@ -145,6 +141,102 @@ const scheduled = async (
     } catch (error) {
       console.error(`Failed to refresh ${repo}`, error);
     }
+  }
+}
+
+async function checkMirrorSync(env: Env) {
+  const mirrors = await env.TETSUDOU.get("mirrors");
+
+  if (mirrors === null) {
+    throw new HTTPException(404, {
+      message: "No mirrors found",
+    });
+  }
+
+  const mirrorList = JSON.parse(mirrors) as Mirror[];
+
+  const mirrorsSyncState: Record<string, { syncState: Record<string, number>, data: Mirror }> = Object.fromEntries(await Promise.all(mirrorList.map(async mirror => {
+    let repoSyncState = await Promise.all(mirror.repos.map(async repo => {
+      try {
+        const url = `https://${mirror.url.replace("{repo_id}", repo)}/repodata/tetsudou.json`
+        const response = await fetch(url);
+
+        //console.log(response)
+
+        if (!response.ok) {
+          let response_body;
+          try {
+            response_body = await response.text()
+          } catch (error) {
+            response_body = String(error)
+          }
+          //console.log(response_body)
+
+          throw new Error(response_body)
+        }
+        const tetsudouMetadata = (await response.json()) as RepomdInfo;
+        return [repo, tetsudouMetadata.timestamp]
+      } catch (e) {
+        console.log("failed metadata grab " + mirror.id + " " + repo)
+        // we should possibly log these failures? but tbh im not sure what the best way to do that.
+        return [repo, 0]
+      }
+    }))
+
+    return [
+      mirror.id,
+      {
+        syncState: Object.fromEntries(repoSyncState) as Record<string, number>,
+        data: mirror
+      }
+    ];
+  })))
+
+  console.log(mirrorsSyncState)
+
+  const primaryId = mirrorList.find(mirror => mirror.primary)?.id
+
+  if (!primaryId) {
+    throw new Error("Could not find primary.")
+  }
+
+  const { [primaryId]: primaryData, ...mirrorsWithoutPrimary } = mirrorsSyncState;
+
+  const syncedMirrors: Mirror[] = [primaryData.data];
+
+  for (const mirrorId in mirrorsWithoutPrimary) {
+    const { syncState, data } = mirrorsWithoutPrimary[mirrorId]
+
+    const totalReposCount = data.repos.length
+
+    data.repos = data.repos.filter(repo => {
+      return Math.abs(syncState[repo] - primaryData.syncState[repo]) < 0.1
+    })
+
+    const syncedReposCount = data.repos.length
+
+    console.log(`${mirrorId} - ${(syncedReposCount / totalReposCount * 100).toFixed(1)}% synced`)
+
+    if (data.repos.length > 0) {
+      syncedMirrors.push(data)
+    }
+  }
+
+  await env.TETSUDOU.put("synced_mirrors", JSON.stringify(syncedMirrors))
+}
+
+const scheduled = async (
+  controller: ScheduledController,
+  env: Env,
+  _ctx: ExecutionContext,
+) => {
+  switch (controller.cron) {
+    case "*/15 * * * *":
+      await refreshAllRepos(env)
+      break;
+    case "*/5 * * * *":
+      await checkMirrorSync(env)
+      break;
   }
 };
 
