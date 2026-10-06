@@ -26,7 +26,22 @@ export type MFile = {
   "mm0:timestamp": number;
   size: number;
   verification: Verification;
+  "mm0:alternates"?: Alternates;
   resources: Resources;
+};
+
+// This took me forever to find out this is a thing (not very well documented).
+// Mirrormanager has its own extension to list the previous versions of repomd.xml,
+// so if you have mirrors or caches that are lagging behind,
+// DNF will compare it against the alternates and still succeed.
+export type Alternates = {
+  "mm0:alternate": Alternate[];
+};
+
+export type Alternate = {
+  "mm0:timestamp": number;
+  size: number;
+  verification: Verification;
 };
 
 export type Verification = {

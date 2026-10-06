@@ -41,10 +41,9 @@ Store the data for all mirrors in the KV key `mirrors` in the namespace `TETSUDO
 
 Please note that the `id` field should be unique across all mirrors.
 
-### Mirrorlist
+### Metadata
 
-Store the data for each repos in `tetsudou.json` files inside their own `repodata` directories (e.g.
-`https://repos.fyralabs.com/terra39/repodata/tetsudou.json`), with the data describing `repomd.xml`:
+To update the metadata for a repository, make a `POST` request to `/api/repos/{repo}`, with a JSON body containing the timestamp, size, and hashes of the new `repomd.xml`:
 
 ```json
 {
@@ -58,6 +57,11 @@ Store the data for each repos in `tetsudou.json` files inside their own `repodat
   }
 }
 ```
+
+Previous versions of the metadata will be returned from the metalink endpoint under the `mm0:alternates` entry.
+This allows clients who reach a mirror with an older version of `repomd.xml` to continue with their transaction.
+Otherwise, DNF will error out on that mirror due to the current metalink hash not matching the hash of the mirror's `repomd.xml` and will try another one (or fail if there are no others.)
+Right now, we hold previous versions for 50 minutes.
 
 ## Naming
 
