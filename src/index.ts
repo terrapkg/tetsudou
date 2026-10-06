@@ -135,7 +135,9 @@ app.get(
       },
     };
 
-    return c.text(xml.js2xml(document, { compact: true }));
+    return c.body(xml.js2xml(document, { compact: true }), 200, {
+      "Content-Type": "application/metalink+xml",
+    });
   },
 );
 
