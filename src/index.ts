@@ -1,9 +1,9 @@
 import { arktypeValidator } from "@hono/arktype-validator";
 import { Hono } from "hono";
 import { type } from "arktype";
-import { RepomdInfo, Mirror } from "./types/tetsudou";
+import { Mirror } from "./types/tetsudou";
 import { Document, Hash, MFile, Resources } from "./types/metalink";
-import { refreshRepo } from "./refresh";
+import { activeAlternates, getRepoMetadata } from "./metadata";
 import { HTTPException } from "hono/http-exception";
 import xml from "xml-js";
 import { selectMirrors } from "./utils/selection";
@@ -63,13 +63,12 @@ app.get(
     );
     const selectedMirrors = selectMirrors(c.req.raw, archCompatibleMirrors);
 
-    const metadata = await c.env.TETSUDOU.get(`metadata/${repo}`);
+    const metadata = await getRepoMetadata(repo, c.env);
     if (metadata === null) {
       throw new HTTPException(404, {
         message: "No metadata found for this repo",
       });
     }
-    const tetsudouMetadata = JSON.parse(metadata) as RepomdInfo;
 
     const resources: Resources = {
       _attributes: {
@@ -88,22 +87,32 @@ app.get(
       ),
     };
 
-    const hashes: Hash[] = Object.entries(tetsudouMetadata.hashes).map(
-      ([type, value]) => ({
+    const toHashes = (hashes: Record<string, string>): Hash[] =>
+      Object.entries(hashes).map(([type, value]) => ({
         _attributes: {
           type,
         },
         _text: value,
-      }),
-    );
+      }));
+
+    const alternates = activeAlternates(metadata, Date.now());
 
     const file: MFile = {
       _attributes: {
         name: "repomd.xml",
       },
-      "mm0:timestamp": tetsudouMetadata.timestamp,
-      size: tetsudouMetadata.size,
-      verification: { hash: hashes },
+      "mm0:timestamp": metadata.timestamp,
+      size: metadata.size,
+      verification: { hash: toHashes(metadata.hashes) },
+      ...(alternates.length > 0 && {
+        "mm0:alternates": {
+          "mm0:alternate": alternates.map((alternate) => ({
+            "mm0:timestamp": alternate.timestamp,
+            size: alternate.size,
+            verification: { hash: toHashes(alternate.hashes) },
+          })),
+        },
+      }),
       resources,
     };
 
@@ -130,25 +139,6 @@ app.get(
   },
 );
 
-const scheduled = async (
-  _controller: ScheduledController,
-  env: Env,
-  _ctx: ExecutionContext,
-) => {
-  const repos = (await env.TETSUDOU.list({
-    prefix: "metadata/"
-  })).keys.map(key => key.name.replace("metadata/", ''))
-
-  for (const repo of repos) {
-    try {
-      await refreshRepo(repo, env);
-    } catch (error) {
-      console.error(`Failed to refresh ${repo}`, error);
-    }
-  }
-};
-
 export default {
   fetch: app.fetch,
-  scheduled,
 };

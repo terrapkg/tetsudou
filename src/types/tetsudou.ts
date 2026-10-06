@@ -19,3 +19,11 @@ export type RepomdInfo = {
   size: number;
   hashes: Record<string, string>;
 };
+
+export type AlternateRepomdInfo = RepomdInfo & {
+  replacedAt: number;
+};
+
+export type RepoMetadata = RepomdInfo & {
+  alternates?: AlternateRepomdInfo[];
+};
