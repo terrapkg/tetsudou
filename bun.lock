@@ -5,7 +5,7 @@
     "": {
       "dependencies": {
         "@hono/arktype-validator": "^2.0.1",
-        "arktype": "^2.2.9",
+        "arktype": "^2.2.10",
         "hono": "^4.13.19",
         "xml-js": "^1.6.11",
       },
@@ -18,9 +18,9 @@
     },
   },
   "packages": {
-    "@ark/schema": ["@ark/schema@0.56.8", "", { "dependencies": { "@ark/util": "0.56.8" } }, "sha512-R05TOe85oQBGFFw2zKMuZpqkXibLKuC/aJt6VwFn5Cjc4x3NkWfhvGRpRDycNkj3ddcHnOPtIsmjVowJO9Yxdw=="],
+    "@ark/schema": ["@ark/schema@0.56.9", "", { "dependencies": { "@ark/util": "0.56.9" } }, "sha512-3kFUweE9PagqzEC9FEOirBRrVxBj0D6o8UiZDDrCyrcaBepRFHjUezf6MuTk8mKfJ4NKzSsaUCOVK+jzcm+dPw=="],
 
-    "@ark/util": ["@ark/util@0.56.8", "", {}, "sha512-XLiQyGfpJcws1zCtp2Cva8s1oheCdFn1Rt6JSyC4NnkDrpwCJnlaiawuuOc1Z97vMH+jEzW5vyyf0xOju5wUQA=="],
+    "@ark/util": ["@ark/util@0.56.9", "", {}, "sha512-/yA1me+AMmI75VaQ5owz1A1owopAJ0ZZFXy9SI1Q69kErJfxuglQBYjGeOTFyygJjZ9Rf4UjCtD5XTuEiNiGHw=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.5.0", "", {}, "sha512-jxQYkj8dSIzc0cD6cMMNdOc1UVjqSqu8BZdor5s8cGjW2I8BjODt/kWPVdY+u9zj3ms75Q5qaZgnxUad83+eAg=="],
 
@@ -208,9 +208,9 @@
 
     "@typescript/typescript-win32-x64": ["@typescript/typescript-win32-x64@7.0.2", "", { "os": "win32", "cpu": "x64" }, "sha512-0BQ3HkAHHlKLSp1qRvf3SUhGpGsDuhB/jgFw75guyqbxJqEaS0Cw/VFO8i2nHglJUzQCRtMMR/IBAKE3ETMC4g=="],
 
-    "arkregex": ["arkregex@0.0.14", "", { "dependencies": { "@ark/util": "0.56.8" } }, "sha512-G3I/uCtWE0IKQiPh0qqmmAFDdtjZKZQ5mNPR6gJBeAMZ7VqYCpoaDeXnLju2Zo6ywExtmxZJELeVFb0MPDjPyA=="],
+    "arkregex": ["arkregex@0.0.15", "", { "dependencies": { "@ark/util": "0.56.9" } }, "sha512-mu9vS4b8kTipqr2AfVIL1NYhGH47CZgPdYFzB762lu4/dsxm7hmNsN3ayDahcM9OhepOpTQc+W744yh4KE+mAw=="],
 
-    "arktype": ["arktype@2.2.9", "", { "dependencies": { "@ark/schema": "0.56.8", "@ark/util": "0.56.8", "arkregex": "0.0.14" } }, "sha512-Cja0IMEn19rB35on9da1i1z6QMasuS7ULffXbetCry09jvCGYT8Bi1KgYiqri5FymF4nQAXkM90yksYkgSK2EA=="],
+    "arktype": ["arktype@2.2.10", "", { "dependencies": { "@ark/schema": "0.56.9", "@ark/util": "0.56.9", "arkregex": "0.0.15" } }, "sha512-xfum3++1RGjULFBeeXph3XrejEhAfswZlpH/V5m324j8aZ/53tHUd8OPCXE1v5iU/2UEkn/ZDFUT0Exkjv96xA=="],
 
     "blake3-wasm": ["blake3-wasm@2.1.5", "", {}, "sha512-F1+K8EbfOZE49dtoPtmxUQrpXaBIl3ICvasLh+nJta0xkz+9kF/7uet9fLnwKqhDrmj6g+6K3Tw9yQPUg2ka5g=="],
 
